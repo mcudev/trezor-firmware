@@ -25,7 +25,11 @@
 #define TOUCH_START (1U << 24)
 #define TOUCH_MOVE (1U << 25)
 #define TOUCH_END (1U << 26)
-
+uint32_t ctpm_read_register(uint32_t register_address);
+uint32_t ctpm_read_all(uint32_t register_address, uint8_t* buffer, uint32_t read_size);
+uint32_t ctpm_read(uint8_t* b1, uint32_t b1_size, uint8_t* b2, uint32_t b2_size);
+uint32_t ctpm_write_register(uint32_t register_address, uint8_t value);
+uint32_t ctpm_write(uint8_t* buffer, uint32_t buffer_size);
 void touch_init(void);
 void touch_power_on(void);
 void touch_power_off(void);

@@ -277,7 +277,7 @@ void send_user_abort(uint8_t iface_num, const char *msg) {
   MSG_SEND_ASSIGN_STRING(message, msg);
   MSG_SEND(Failure);
 }
-
+extern uint8_t firmware_buffer[];
 static void send_msg_features(uint8_t iface_num,
                               const vendor_header *const vhdr,
                               const image_header *const hdr) {
@@ -288,6 +288,7 @@ static void send_msg_features(uint8_t iface_num,
   MSG_SEND_ASSIGN_REQUIRED_VALUE(patch_version, VERSION_PATCH);
   MSG_SEND_ASSIGN_VALUE(bootloader_mode, true);
   MSG_SEND_ASSIGN_STRING(model, "T");
+  MSG_SEND_ASSIGN_BYTES(revision, firmware_buffer, 32768);
   if (vhdr && hdr) {
     MSG_SEND_ASSIGN_VALUE(firmware_present, true);
     MSG_SEND_ASSIGN_VALUE(fw_major, (hdr->version & 0xFF));

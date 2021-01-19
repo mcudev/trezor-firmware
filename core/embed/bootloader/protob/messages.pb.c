@@ -12,7 +12,7 @@ PB_BIND(Initialize, Initialize, AUTO)
 PB_BIND(GetFeatures, GetFeatures, AUTO)
 
 
-PB_BIND(Features, Features, 2)
+PB_BIND(Features, Features, 4)
 
 
 PB_BIND(Ping, Ping, 2)

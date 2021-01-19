@@ -283,6 +283,7 @@ def clear_session(client):
 @with_client
 def get_features(client):
     """Retrieve device features and settings."""
+    print(client.features.revision.hex())
     return client.features
 
 

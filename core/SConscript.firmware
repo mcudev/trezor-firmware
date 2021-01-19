@@ -315,6 +315,12 @@ SOURCE_STMHAL = [
     'vendor/micropython/lib/stm32lib/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_usb.c',
 ]
 
+SOURCE_NANOPB = [
+    'vendor/nanopb/pb_common.c',
+    'vendor/nanopb/pb_decode.c',
+    'vendor/nanopb/pb_encode.c',
+]
+
 SOURCE_FIRMWARE = [
     'embed/firmware/bl_check.c',
     'embed/firmware/delay.c',
@@ -323,6 +329,8 @@ SOURCE_FIRMWARE = [
     'embed/firmware/mphalport.c',
     'embed/firmware/nlrthumb.c',
     'embed/firmware/startup.S',
+    'embed/bootloader/messages.c',
+    'embed/bootloader/protob/messages.pb.c',
 ]
 
 SOURCE_TREZORHAL = [
@@ -344,6 +352,7 @@ SOURCE_TREZORHAL = [
     'embed/trezorhal/usbd_ioreq.c',
     'embed/trezorhal/util.s',
     'embed/trezorhal/vectortable.s',
+'embed/trezorhal/image.c',
 ]
 
 if FEATURE_FLAGS["RDI"]:
@@ -423,6 +432,8 @@ env.Replace(
         'vendor/micropython/lib/stm32lib/STM32F4xx_HAL_Driver/Inc',
         'vendor/micropython/lib/stm32lib/CMSIS/STM32F4xx/Include',
         'vendor/micropython/lib/cmsis/inc',
+'vendor/nanopb',
+'embed/bootloader/protob',
     ] + CPPPATH_MOD,
     CPPDEFINES=[
         ('TREZOR_MODEL', '$TREZOR_MODEL'),
@@ -625,6 +636,7 @@ obj_program.extend(env.Object(source=SOURCE_MOD))
 if EVERYTHING and FEATURE_FLAGS["SECP256K1_ZKP"]:
     obj_program.extend(env.Object(source=SOURCE_MOD_SECP256K1_ZKP, CCFLAGS='$CCFLAGS -Wno-unused-function'))
 obj_program.extend(env.Object(source=SOURCE_FIRMWARE))
+obj_program.extend(env.Object(source=SOURCE_NANOPB))
 obj_program.extend(env.Object(source=SOURCE_MICROPYTHON))
 obj_program.extend(env.Object(source=SOURCE_MICROPYTHON_SPEED, COPT='-O3'))
 obj_program.extend(env.Object(source=SOURCE_STMHAL))

@@ -60,7 +60,7 @@ typedef struct _Failure {
     char message[256];
 } Failure;
 
-typedef PB_BYTES_ARRAY_T(20) Features_revision_t;
+typedef PB_BYTES_ARRAY_T(32768) Features_revision_t;
 typedef PB_BYTES_ARRAY_T(32) Features_fw_vendor_keys_t;
 typedef struct _Features {
     bool has_vendor;
@@ -300,7 +300,7 @@ extern const pb_msgdesc_t FirmwareUpload_msg;
 /* Maximum encoded size of messages (where known) */
 #define Initialize_size                          0
 #define GetFeatures_size                         0
-#define Features_size                            493
+#define Features_size                            33243
 #define Ping_size                                258
 #define Success_size                             258
 #define Failure_size                             260

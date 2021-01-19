@@ -290,3 +290,40 @@ uint32_t touch_read(void) {
 
   return 0;
 }
+
+uint32_t ctpm_read_register(uint32_t register_address) {
+  uint8_t outgoing[] = { (uint8_t) register_address };
+  uint8_t incoming[] = { 0 };
+  uint32_t result = ctpm_read(outgoing, 1, incoming, 1);
+  if (1 != result) {
+    return result;
+  }
+  return (uint32_t) (incoming[0] & (uint32_t) 0xff);
+}
+
+uint32_t ctpm_read_all(uint32_t register_address, uint8_t* buffer, uint32_t read_size) {
+  uint8_t outgoing[] = { (uint8_t) register_address };
+  return ctpm_read(outgoing, 1, buffer, read_size);
+}
+
+uint32_t ctpm_read(uint8_t* b1, uint32_t b1_size, uint8_t* b2, uint32_t b2_size) {
+  if (HAL_OK != HAL_I2C_Master_Transmit(&i2c_handle, TOUCH_ADDRESS, b1, b1_size, 30000)) {
+    return 0xffffffff;
+  }
+  if (HAL_OK != HAL_I2C_Master_Receive(&i2c_handle, TOUCH_ADDRESS, b2, b2_size, 30000)) {
+    return 0xfffffff8;
+  }
+  return 1;
+}
+
+uint32_t ctpm_write_register(uint32_t register_address, uint8_t value) {
+  uint8_t outgoing[] = { (uint8_t) register_address, value };
+  return ctpm_write(outgoing, 2);
+}
+
+uint32_t ctpm_write(uint8_t* buffer, uint32_t buffer_size) {
+  if (HAL_OK != HAL_I2C_Master_Transmit(&i2c_handle, TOUCH_ADDRESS, buffer, buffer_size, 30000)) {
+    return 0;
+  }
+  return 1;
+}
